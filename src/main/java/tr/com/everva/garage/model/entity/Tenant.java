@@ -17,4 +17,8 @@ public class Tenant extends BaseAuditEntity {
 
     private String galleryName;
 
+    private String galleryPhone;
+
+    private String galleryAddress;
+
 }

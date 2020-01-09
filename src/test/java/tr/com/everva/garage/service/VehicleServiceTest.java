@@ -1,11 +1,9 @@
 package tr.com.everva.garage.service;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tr.com.everva.garage.BaseTest;
 import tr.com.everva.garage.model.entity.Vehicle;
@@ -28,7 +26,7 @@ public class VehicleServiceTest extends BaseTest {
 
     @BeforeEach
     void setMockOutput() {
-        vehicleService = new VehicleService(vehicleRepository);
+        vehicleService = new VehicleService(vehicleRepository, configurationService, shareHolderService, incomeService);
         Vehicle vehicle = new Vehicle();
         vehicle.setId(vehicleId);
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.of(vehicle));

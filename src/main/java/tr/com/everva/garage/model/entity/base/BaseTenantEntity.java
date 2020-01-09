@@ -8,9 +8,10 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import tr.com.everva.garage.model.IEntity;
+import tr.com.everva.garage.model.entity.Tenant;
+import tr.com.everva.garage.util.TenantContext;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 @AllArgsConstructor
@@ -21,7 +22,23 @@ import javax.persistence.MappedSuperclass;
 @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
 public class BaseTenantEntity extends BaseEntity implements IEntity {
 
+
+    @ManyToOne
+    @JoinColumn(name = "tenant_id")
+    protected Tenant tenant;
+
+
     @Column(name = "tenant_id")
     protected String tenantId;
+
+    @PrePersist
+    protected void onCreate() {
+        String currentTenant = TenantContext.getCurrentTenant();
+        Tenant tenant = new Tenant();
+        tenant.setId(currentTenant);
+        setTenant(tenant);
+        setTenantId(currentTenant);
+    }
+
 
 }

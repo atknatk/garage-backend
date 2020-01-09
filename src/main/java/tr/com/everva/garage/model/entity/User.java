@@ -23,6 +23,10 @@ import javax.validation.constraints.Size;
 //@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
 public class User extends BaseTenantAuditEntity implements ITenant {
 
+    public User(String id) {
+        this.setId(id);
+    }
+
     @NotNull
     private String firstName;
     @NotNull

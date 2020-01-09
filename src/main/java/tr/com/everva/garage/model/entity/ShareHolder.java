@@ -24,5 +24,7 @@ public class ShareHolder extends BaseTenantAuditEntity implements ITenant, IAudi
     @JoinColumn(name = "share_holder_user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_share_holder_user_id"))
     private User user;
 
+    // Sermaye Orani ya da Sermayesi Bedeli
     private int shareHolding;
+
 }

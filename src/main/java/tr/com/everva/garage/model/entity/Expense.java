@@ -28,6 +28,10 @@ public class Expense extends BaseTenantAuditUserEntity implements ITenant, IAudi
     @Type(type = "big_decimal")
     private double money;
 
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false, foreignKey = @ForeignKey(name = "fk_expense_vehicle_id"))
+    private Vehicle vehicle;
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
