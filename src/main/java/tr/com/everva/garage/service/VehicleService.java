@@ -35,12 +35,12 @@ public class VehicleService {
     }
 
     @Transactional
-    public Optional<Vehicle> get(UUID uuid) {
+    public Optional<Vehicle> get(String uuid) {
         return vehicleRepository.findById(uuid);
     }
 
     @Transactional
-    public void delete(UUID id) {
+    public void delete(String id) {
         vehicleRepository.deleteById(id);
     }
 

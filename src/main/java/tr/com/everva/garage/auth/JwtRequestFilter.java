@@ -1,6 +1,6 @@
 package tr.com.everva.garage.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import io.jsonwebtoken.ExpiredJwtException;
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    public JwtRequestFilter(JwtUserDetailsService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
