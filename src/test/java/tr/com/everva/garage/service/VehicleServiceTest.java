@@ -21,6 +21,15 @@ public class VehicleServiceTest extends BaseTest {
     @Mock
     private VehicleRepository vehicleRepository;
 
+    @Mock
+    private ConfigurationService configurationService;
+
+    @Mock
+    private ShareHolderService shareHolderService;
+
+    @Mock
+    private IncomeService incomeService;
+
     @InjectMocks // auto inject helloRepository
     private VehicleService vehicleService;
 
@@ -40,7 +49,7 @@ public class VehicleServiceTest extends BaseTest {
     void list() {
     }
 
-   // @DisplayName("Test Mock helloService + helloRepository")
+    // @DisplayName("Test Mock helloService + helloRepository")
     @Test
     void get() {
         Optional<Vehicle> vehicle = vehicleService.get(vehicleId);
@@ -50,5 +59,13 @@ public class VehicleServiceTest extends BaseTest {
 
     @Test
     void delete() {
+    }
+
+    @Test
+    void update() {
+    }
+
+    @Test
+    void sales() {
     }
 }

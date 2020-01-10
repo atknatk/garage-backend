@@ -115,32 +115,6 @@ public class VehicleService {
                 incomes.add(income);
             });
             incomeService.saveAll(incomes);
-
-
-
-
-
-
-
-//            Optional<Configuration> byKey = configurationService.findByKey(ConfigurationEnum.PROFIT);
-//            ProfitEnum profitEnum = null;
-//            if (byKey.isPresent()) {
-//                try {
-//                    profitEnum = ProfitEnum.valueOf(byKey.get().getValue());
-//                } catch (Exception ex) {
-//                    throw new RuntimeException("profit enum not found");
-//                }
-//            }
-//            if (profitEnum != null) {
-//                if (profitEnum == ProfitEnum.RATIO) {
-//
-//
-//                } else if (profitEnum == ProfitEnum.CAPITAL) {
-//
-//                }
-//            }
-
-
         }
 
 
