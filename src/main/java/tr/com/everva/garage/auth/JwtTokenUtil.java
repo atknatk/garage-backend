@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import tr.com.everva.garage.model.dto.account.UserDto;
 
 @Component
 public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -47,8 +48,14 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
+        return doGenerateToken(claims, userDetails.getUsername());
+    }
+
+    //generate token for user
+    public String generateToken(UserDto userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        //    claims.put("tenant", userDetails.getTenantDto().getId());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

@@ -12,6 +12,7 @@ import tr.com.everva.garage.service.VehicleService;
 import tr.com.everva.garage.validation.ValidUUID;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -24,6 +25,13 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
+
+    @GetMapping("/")
+    public ResponseEntity<ResponseDto> getAll() {
+        List<Vehicle> vehicle = vehicleService.list();
+        ResponseDto response = ResponseDto.builder().success(true).data(vehicle).build();
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/")
     public ResponseEntity<ResponseDto> addVehicle(@Valid @RequestBody VehicleCreateDto dto) {
@@ -42,8 +50,8 @@ public class VehicleController {
 
     @PutMapping("/{id}/sales")
     public ResponseEntity<ResponseDto> sold(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleSalesDto dto) {
-        Vehicle updated = vehicleService.sales(id, dto);
-        ResponseDto response = ResponseDto.builder().success(true).data(updated).build();
+        vehicleService.sales(id, dto);
+        ResponseDto response = ResponseDto.builder().success(true).build();
         return ResponseEntity.ok(response);
     }
 

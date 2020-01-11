@@ -24,7 +24,7 @@ public class BaseTenantEntity extends BaseEntity implements IEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(name = "tenant_id", referencedColumnName = "id", insertable = false, updatable = false)
     protected Tenant tenant;
 
 

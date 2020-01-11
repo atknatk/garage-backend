@@ -21,4 +21,5 @@ public class Tenant extends BaseAuditEntity {
 
     private String galleryAddress;
 
+    private boolean deleted;
 }

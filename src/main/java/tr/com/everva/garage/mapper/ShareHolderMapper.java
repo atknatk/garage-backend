@@ -2,7 +2,6 @@ package tr.com.everva.garage.mapper;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.entity.ShareHolder;

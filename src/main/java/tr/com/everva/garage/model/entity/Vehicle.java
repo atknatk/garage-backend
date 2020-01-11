@@ -10,6 +10,7 @@ import tr.com.everva.garage.model.ITenant;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
 import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
 import tr.com.everva.garage.model.entity.base.BaseTenantAuditEntity;
+import tr.com.everva.garage.model.entity.base.BaseTenantAuditUserEntity;
 import tr.com.everva.garage.validation.ValidYear;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 //@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
 //@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public class Vehicle extends BaseTenantAuditEntity implements ITenant, IAuditEntity {
+public class Vehicle extends BaseTenantAuditUserEntity implements ITenant, IAuditEntity {
 
     @ManyToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_vehicle_category_id"))

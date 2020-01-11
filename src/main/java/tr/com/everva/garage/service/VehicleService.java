@@ -4,8 +4,6 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import tr.com.everva.garage.enums.ConfigurationEnum;
-import tr.com.everva.garage.enums.ProfitEnum;
 import tr.com.everva.garage.exception.NotFoundException;
 import tr.com.everva.garage.mapper.VehicleMapper;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;

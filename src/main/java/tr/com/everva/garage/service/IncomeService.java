@@ -1,12 +1,8 @@
 package tr.com.everva.garage.service;
 
 import org.springframework.stereotype.Service;
-import tr.com.everva.garage.mapper.ShareHolderMapper;
-import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.entity.Income;
-import tr.com.everva.garage.model.entity.ShareHolder;
 import tr.com.everva.garage.repository.IncomeRepository;
-import tr.com.everva.garage.repository.ShareHolderRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
