@@ -28,9 +28,7 @@ public class User extends BaseTenantAuditEntity implements ITenant {
     }
 
     @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
+    private String name;
 
     private String mail;
 

@@ -1,4 +1,4 @@
-package tr.com.everva.garage.model.dto.tenant;
+package tr.com.everva.garage.model.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -20,11 +20,7 @@ public class RegistrationDto extends BaseDto {
     private String phone;
 
     @NotNull
-    @JsonProperty("f")
-    private String firstName;
-
-    @NotNull
-    @JsonProperty("l")
-    private String lastName;
+    @JsonProperty("n")
+    private String name;
 
 }

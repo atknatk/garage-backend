@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import tr.com.everva.garage.BaseTest;
-import tr.com.everva.garage.model.dto.tenant.RegistrationDto;
+import tr.com.everva.garage.model.dto.account.RegistrationDto;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
 

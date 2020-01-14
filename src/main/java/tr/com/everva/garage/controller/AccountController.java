@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.everva.garage.model.dto.ResponseDto;
-import tr.com.everva.garage.model.dto.tenant.RegistrationDto;
+import tr.com.everva.garage.model.dto.account.RegistrationDto;
 import tr.com.everva.garage.service.AccountService;
 
 import javax.validation.Valid;
@@ -24,8 +24,14 @@ public class AccountController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto> updateVehicle(@Valid @RequestBody RegistrationDto dto) {
+    public ResponseEntity<ResponseDto> register(@Valid @RequestBody RegistrationDto dto) {
         ResponseDto registered = accountService.register(dto);
         return ResponseEntity.ok(registered);
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<ResponseDto> verify(@Valid @RequestBody RegistrationDto dto) {
+        ResponseDto verified = accountService.verify(dto);
+        return ResponseEntity.ok(verified);
     }
 }

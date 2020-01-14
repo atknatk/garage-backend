@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 import tr.com.everva.garage.enums.ErrorCode;
 import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.account.UserDto;
-import tr.com.everva.garage.model.dto.tenant.RegistrationDto;
-import tr.com.everva.garage.model.entity.Tenant;
+import tr.com.everva.garage.model.dto.account.RegistrationDto;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
 
@@ -32,13 +31,10 @@ public class AccountService {
                     .error("Bu telefon numarası zaten sistemde kayıtlı")
                     .build();
         }
-        Tenant savedTenant = tenantService.saveEmptyTenant();
         User user = new User();
-        user.setTenantId(savedTenant.getId());
         user.setPhone(registrationDto.getPhone());
-        user.setFirstName(registrationDto.getFirstName());
-        user.setLastName(registrationDto.getLastName());
-        User saved = userRepository.save(user);
+        user.setName(registrationDto.getName());
+         User saved = userRepository.save(user);
         return ResponseDto.builder()
                 .success(true)
                 .data(saved)
@@ -61,4 +57,8 @@ public class AccountService {
     }
 
 
+    public ResponseDto verify(RegistrationDto dto) {
+        // TODO verify
+        return null;
+    }
 }

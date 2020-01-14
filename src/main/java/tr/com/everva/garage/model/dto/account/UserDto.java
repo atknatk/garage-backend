@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tr.com.everva.garage.model.dto.tenant.TenantDto;
-import tr.com.everva.garage.model.entity.Tenant;
+import tr.com.everva.garage.model.dto.tenant.GarageCreateDto;
 import tr.com.everva.garage.model.entity.User;
 
 import javax.validation.constraints.NotNull;
@@ -18,16 +17,11 @@ import java.util.Collection;
 public class UserDto implements UserDetails {
 
     @JsonProperty("t")
-    private TenantDto tenantDto;
+    private GarageCreateDto tenantDto;
 
     @NotNull
-    @JsonProperty("f")
-    private String firstName;
-
-    @NotNull
-    @JsonProperty("l")
-    private String lastName;
-
+    @JsonProperty("n")
+    private String name;
 
     @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
@@ -54,15 +48,14 @@ public class UserDto implements UserDetails {
     }
 
     public UserDto(User user) {
-        setFirstName(user.getFirstName());
-        setLastName(user.getLastName());
+        setName(user.getName());
         if (user.getTenant() != null) {
-            TenantDto tenantDto = new TenantDto();
+            GarageCreateDto tenantDto = new GarageCreateDto();
             tenantDto.setId(user.getTenant().getId());
-            tenantDto.setGalleryName(user.getTenant().getGalleryName());
+           // TODO fix tenantDto.setGalleryName(user.getTenant().getGalleryName());
             setTenantDto(tenantDto);
         } else if (user.getTenantId() != null) {
-            TenantDto tenantDto = new TenantDto();
+            GarageCreateDto tenantDto = new GarageCreateDto();
             tenantDto.setId(user.getTenantId());
             setTenantDto(tenantDto);
         }
