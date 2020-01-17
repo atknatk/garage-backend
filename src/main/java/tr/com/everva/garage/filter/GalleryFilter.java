@@ -3,7 +3,7 @@ package tr.com.everva.garage.filter;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import tr.com.everva.garage.auth.WebSecurityConfig;
-import tr.com.everva.garage.util.TenantContext;
+import tr.com.everva.garage.util.GalleryContext;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,13 +17,13 @@ import java.io.IOException;
 
 
 @Component
-public class TenantFilter implements Filter {
+public class GalleryFilter implements Filter {
 
     private final WebSecurityConfig webSecurityConfig;
 
-    private static final String TENANT_HEADER = "X-TenantID";
+    private static final String GALLERY_HEADER = "X-GalleryID";
 
-    public TenantFilter(WebSecurityConfig webSecurityConfig) {
+    public GalleryFilter(WebSecurityConfig webSecurityConfig) {
         this.webSecurityConfig = webSecurityConfig;
     }
 
@@ -35,10 +35,10 @@ public class TenantFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String tenantHeader = request.getHeader(TENANT_HEADER);
+        String galleryHeader = request.getHeader(GALLERY_HEADER);
         if (!this.webSecurityConfig.ignoringPaths.contains(request.getServletPath())) {
-            if (tenantHeader != null && !tenantHeader.isEmpty()) {
-                TenantContext.setCurrentTenant(tenantHeader);
+            if (galleryHeader != null && !galleryHeader.isEmpty()) {
+                GalleryContext.setCurrentGallery(galleryHeader);
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);

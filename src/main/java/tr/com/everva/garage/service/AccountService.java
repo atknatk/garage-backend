@@ -5,6 +5,8 @@ import tr.com.everva.garage.enums.ErrorCode;
 import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.account.UserDto;
 import tr.com.everva.garage.model.dto.account.RegistrationDto;
+import tr.com.everva.garage.model.dto.account.UserGalleryDto;
+import tr.com.everva.garage.model.dto.account.VerifyDto;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
 
@@ -15,11 +17,9 @@ import java.util.Optional;
 public class AccountService {
 
 
-    private final TenantService tenantService;
     private final UserRepository userRepository;
 
-    public AccountService(TenantService tenantService, UserRepository userRepository) {
-        this.tenantService = tenantService;
+    public AccountService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -34,7 +34,8 @@ public class AccountService {
         User user = new User();
         user.setPhone(registrationDto.getPhone());
         user.setName(registrationDto.getName());
-         User saved = userRepository.save(user);
+        user.setActive(false);
+        User saved = userRepository.save(user);
         return ResponseDto.builder()
                 .success(true)
                 .data(saved)
@@ -44,7 +45,7 @@ public class AccountService {
 
     public ResponseDto retrieveUser(String phone) {
 
-        Optional<User> byPhone = userRepository.findByPhone(phone);
+        Optional<UserGalleryDto> byPhone = userRepository.findByPhone(phone);
         return byPhone.isPresent() ?
                 ResponseDto.builder()
                         .success(true)
@@ -57,7 +58,7 @@ public class AccountService {
     }
 
 
-    public ResponseDto verify(RegistrationDto dto) {
+    public ResponseDto verify(VerifyDto dto) {
         // TODO verify
         return null;
     }

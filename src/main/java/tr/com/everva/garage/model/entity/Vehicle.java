@@ -1,21 +1,15 @@
 package tr.com.everva.garage.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tr.com.everva.garage.model.IAuditEntity;
-import tr.com.everva.garage.model.ITenant;
+import tr.com.everva.garage.model.IGallery;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
-import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditEntity;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditUserEntity;
-import tr.com.everva.garage.validation.ValidYear;
+import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +18,9 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-//@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
-//@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public class Vehicle extends BaseTenantAuditUserEntity implements ITenant, IAuditEntity {
+//@FilterDef(name = "galleryFilter", parameters = {@ParamDef(name = "galleryId", type = "string")})
+//@Filter(name = "galleryFilter", condition = "gallery_id = :galleryId")
+public class Vehicle extends BaseGalleryAuditUserEntity implements IGallery, IAuditEntity {
 
     @ManyToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_vehicle_category_id"))

@@ -1,9 +1,8 @@
 package tr.com.everva.garage.model.entity;
 
 import lombok.*;
-import lombok.experimental.Wither;
-import tr.com.everva.garage.model.ITenant;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditEntity;
+import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,9 +18,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "users")
-//@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
-//@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public class User extends BaseTenantAuditEntity implements ITenant {
+//@FilterDef(name = "galleryFilter", parameters = {@ParamDef(name = "galleryId", type = "string")})
+//@Filter(name = "galleryFilter", condition = "gallery_id = :galleryId")
+public class User extends BaseGalleryAuditEntity implements IGallery {
 
     public User(String id) {
         this.setId(id);
@@ -39,5 +38,7 @@ public class User extends BaseTenantAuditEntity implements ITenant {
     private String phone;
 
     private boolean deleted;
+
+    private boolean active;
 
 }

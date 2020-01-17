@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import tr.com.everva.garage.service.VehicleService;
-import tr.com.everva.garage.util.TenantContext;
+import tr.com.everva.garage.util.GalleryContext;
 
 @Log4j2
 @Aspect
@@ -16,8 +16,8 @@ public class VehicleServiceAspect {
 
     @Before("execution(* tr.com.everva.garage.service.VehicleService.*(..))  && target(vehicleService)")
     public void aroundExecution(JoinPoint pjp, VehicleService vehicleService) {
-        org.hibernate.Filter filter = vehicleService.entityManager.unwrap(Session.class).enableFilter("tenantFilter");
-        filter.setParameter("tenantId", TenantContext.getCurrentTenant());
+        org.hibernate.Filter filter = vehicleService.entityManager.unwrap(Session.class).enableFilter("galleryFilter");
+        filter.setParameter("galleryId", GalleryContext.getCurrentGallery());
         filter.validate();
     }
 }

@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tr.com.everva.garage.model.dto.tenant.GarageCreateDto;
+import tr.com.everva.garage.model.dto.gallery.GalleryCreateDto;
+import tr.com.everva.garage.model.dto.gallery.GalleryDto;
 import tr.com.everva.garage.model.entity.User;
 
 import javax.validation.constraints.NotNull;
@@ -16,8 +17,11 @@ import java.util.Collection;
 @Setter
 public class UserDto implements UserDetails {
 
+    @JsonProperty("i")
+    private String id;
+
     @JsonProperty("t")
-    private GarageCreateDto tenantDto;
+    private GalleryDto galleryDto;
 
     @NotNull
     @JsonProperty("n")
@@ -48,16 +52,30 @@ public class UserDto implements UserDetails {
     }
 
     public UserDto(User user) {
+        setId(user.getId());
         setName(user.getName());
-        if (user.getTenant() != null) {
-            GarageCreateDto tenantDto = new GarageCreateDto();
-            tenantDto.setId(user.getTenant().getId());
-           // TODO fix tenantDto.setGalleryName(user.getTenant().getGalleryName());
-            setTenantDto(tenantDto);
-        } else if (user.getTenantId() != null) {
-            GarageCreateDto tenantDto = new GarageCreateDto();
-            tenantDto.setId(user.getTenantId());
-            setTenantDto(tenantDto);
+        if (user.getGallery() != null) {
+            GalleryDto galleryDto = new GalleryDto();
+            galleryDto.setId(user.getGallery().getId());
+           // TODO fix galleryDto.setGalleryName(user.getGallery().getGalleryName());
+            setGalleryDto(galleryDto);
+        } else if (user.getGalleryId() != null) {
+            GalleryDto galleryDto = new GalleryDto();
+            galleryDto.setId(user.getGalleryId());
+            setGalleryDto(galleryDto);
+        }
+    }
+
+    public UserDto(UserGalleryDto userGalleryDto) {
+        setId(userGalleryDto.getId());
+        if (userGalleryDto.getGalleryId() != null && !userGalleryDto.getGalleryId().equals("")) {
+            GalleryDto galleryDto = new GalleryDto();
+            galleryDto.setId(userGalleryDto.getId());
+            setGalleryDto(galleryDto);
+        } else if (userGalleryDto.getGalleryId() != null) {
+            GalleryDto galleryDto = new GalleryDto();
+            galleryDto.setId(userGalleryDto.getGalleryId());
+            setGalleryDto(galleryDto);
         }
     }
 }

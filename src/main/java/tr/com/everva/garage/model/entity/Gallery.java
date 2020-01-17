@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tenant extends BaseAuditEntity {
+public class Gallery extends BaseAuditEntity {
 
     private String galleryName;
 

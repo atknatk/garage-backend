@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import tr.com.everva.garage.BaseTest;
+import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.account.RegistrationDto;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
@@ -14,8 +15,6 @@ import static org.mockito.Mockito.when;
 
 class AccountServiceTest extends BaseTest {
 
-    @Mock
-    private TenantService tenantService;
 
     @Mock
     private UserRepository userRepository;
@@ -26,13 +25,13 @@ class AccountServiceTest extends BaseTest {
 
     @BeforeEach
     void setMockOutput() {
-        accountService = new AccountService(tenantService, userRepository);
+        accountService = new AccountService(userRepository);
         initUser();
         initTenant();
-        when(tenantService.saveEmptyTenant()).thenReturn(tenant);
+        //when(galleryService.saveEmptyTenant()).thenReturn(gallery);
         User user1 = user.toBuilder().build();
-        user1.setTenant(tenant);
-        user1.setTenantId(tenantId);
+        user1.setGallery(gallery);
+        user1.setGalleryId(galleryId);
         when(userRepository.save(user)).thenReturn(user1);
     }
 
@@ -40,7 +39,7 @@ class AccountServiceTest extends BaseTest {
     void register() {
         RegistrationDto registrationDto = new RegistrationDto();
         registrationDto.setPhone(this.user.getPhone());
-        User registeredUser = this.accountService.register(registrationDto);
-        Assertions.assertEquals(registeredUser.getPhone(),this.user.getPhone());
+        ResponseDto register = this.accountService.register(registrationDto);
+        Assertions.assertTrue(register.isSuccess());
     }
 }

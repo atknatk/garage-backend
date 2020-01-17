@@ -12,7 +12,7 @@ import tr.com.everva.garage.model.dto.vehicle.VehicleSalesDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
 import tr.com.everva.garage.model.entity.*;
 import tr.com.everva.garage.repository.VehicleRepository;
-import tr.com.everva.garage.util.TenantContext;
+import tr.com.everva.garage.util.GalleryContext;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -89,7 +89,7 @@ public class VehicleService {
 
         if (shareHolderList.isEmpty() || shareHolderList.size() == 1) {
             Income income = new Income();
-            income.setTenantId(TenantContext.getCurrentTenant());
+            income.setGalleryId(GalleryContext.getCurrentGallery());
             income.setUser(new User(currentUserId));
             income.setGain(gain);
             incomeService.save(income);
@@ -107,7 +107,7 @@ public class VehicleService {
             List<Income> incomes = new ArrayList<>();
             shareHolderList.forEach(l -> {
                 Income income = new Income();
-                income.setTenantId(TenantContext.getCurrentTenant());
+                income.setGalleryId(GalleryContext.getCurrentGallery());
                 income.setUser(new User(currentUserId));
                 income.setGain(perRatioGain * l.getShareHolding());
                 incomes.add(income);

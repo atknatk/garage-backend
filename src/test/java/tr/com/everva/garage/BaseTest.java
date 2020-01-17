@@ -1,6 +1,6 @@
 package tr.com.everva.garage;
 
-import tr.com.everva.garage.model.entity.Tenant;
+import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.model.entity.Vehicle;
 
@@ -9,12 +9,12 @@ import java.util.Date;
 public class BaseTest {
 
     protected final String vehicleId = "vehicle-id";
-    protected final String tenantId = "tenant-id";
-    protected final String userId = "tenant-id";
+    protected final String galleryId = "gallery-id";
+    protected final String userId = "gallery-id";
 
     protected User user;
     protected Vehicle vehicle;
-    protected Tenant tenant;
+    protected Gallery gallery;
 
     protected void initUser() {
         user = new User();
@@ -31,14 +31,14 @@ public class BaseTest {
     }
 
     protected void initTenant() {
-        tenant = new Tenant();
-        tenant.setId(tenantId);
-        tenant.setGalleryName("Test Gallery");
+        gallery = new Gallery();
+        gallery.setId(galleryId);
+        gallery.setGalleryName("Test Gallery");
     }
 
     protected void resetModels() {
         this.user = null;
-        this.tenant = null;
+        this.gallery = null;
         this.vehicle = null;
     }
 
@@ -46,11 +46,11 @@ public class BaseTest {
         this.initVehicle();
         this.initTenant();
         this.initUser();
-        this.vehicle.setTenantId(tenant.getId());
-        this.vehicle.setTenant(tenant);
+        this.vehicle.setGalleryId(gallery.getId());
+        this.vehicle.setGallery(gallery);
         this.vehicle.setCreatedBy(user);
-        this.user.setTenantId(tenant.getId());
-        this.user.setTenant(tenant);
+        this.user.setGalleryId(gallery.getId());
+        this.user.setGallery(gallery);
     }
 
 

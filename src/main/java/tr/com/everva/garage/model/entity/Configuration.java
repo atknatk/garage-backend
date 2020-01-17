@@ -6,19 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tr.com.everva.garage.enums.ConfigurationEnum;
 import tr.com.everva.garage.model.IAuditEntity;
-import tr.com.everva.garage.model.ITenant;
-import tr.com.everva.garage.model.entity.base.BaseEntity;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditUserEntity;
+import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Configuration extends BaseTenantAuditUserEntity implements IAuditEntity, ITenant {
+public class Configuration extends BaseGalleryAuditUserEntity implements IAuditEntity, IGallery {
 
 
     @Enumerated(EnumType.STRING)

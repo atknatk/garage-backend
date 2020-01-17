@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tr.com.everva.garage.BaseTest;
-import tr.com.everva.garage.model.entity.Tenant;
 import tr.com.everva.garage.model.entity.Vehicle;
 
 import javax.persistence.EntityManager;

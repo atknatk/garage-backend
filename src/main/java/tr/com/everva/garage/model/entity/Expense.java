@@ -7,9 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import tr.com.everva.garage.enums.ExpenseEnum;
 import tr.com.everva.garage.model.IAuditEntity;
-import tr.com.everva.garage.model.ITenant;
-import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditUserEntity;
+import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,7 +18,7 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Expense extends BaseTenantAuditUserEntity implements ITenant, IAuditEntity {
+public class Expense extends BaseGalleryAuditUserEntity implements IGallery, IAuditEntity {
 
     @Enumerated(EnumType.STRING)
     private ExpenseEnum expenseType;

@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tr.com.everva.garage.model.IAuditEntity;
-import tr.com.everva.garage.model.ITenant;
-import tr.com.everva.garage.model.entity.base.BaseTenantAuditEntity;
+import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Income extends BaseTenantAuditEntity implements ITenant, IAuditEntity {
+public class Income extends BaseGalleryAuditEntity implements IGallery, IAuditEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_income_user_id"))

@@ -17,7 +17,7 @@ import java.util.Date;
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseTenantAuditUserEntity extends BaseTenantEntity implements IAuditEntity {
+public class BaseGalleryAuditUserEntity extends BaseGalleryEntity implements IAuditEntity {
 
     @Column(name = "created_at")
     protected Date createdAt;
