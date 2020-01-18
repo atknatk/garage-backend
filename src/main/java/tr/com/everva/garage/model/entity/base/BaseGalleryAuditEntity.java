@@ -21,8 +21,8 @@ import javax.persistence.*;
 @Filter(name = "galleryFilter", condition = "gallery_id = :galleryId")
 public class BaseGalleryAuditEntity extends BaseAuditEntity implements IAuditEntity {
 
-    @Column(name = "gallery_id")
-    protected String galleryId;
+//    @Column(name = "gallery_id")
+//    protected String galleryId;
 
     @ManyToOne
     @JoinColumn(name = "gallery_id", referencedColumnName = "id", insertable = false, updatable = false)

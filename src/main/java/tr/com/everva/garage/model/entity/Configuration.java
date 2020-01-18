@@ -18,7 +18,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Configuration extends BaseGalleryAuditUserEntity implements IAuditEntity, IGallery {
 
-
     @Enumerated(EnumType.STRING)
     private ConfigurationEnum key;
 

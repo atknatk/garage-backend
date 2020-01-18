@@ -56,7 +56,7 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(UserDto userDetails) {
         Map<String, Object> claims = new HashMap<>();
         //    claims.put("gallery", userDetails.getGalleryDto().getId());
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getPhone());
     }
 
     //while creating the token -
@@ -73,6 +73,7 @@ public class JwtTokenUtil implements Serializable {
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        UserDto userDto = (UserDto) userDetails;
+        return (username.equals(userDto.getPhone()) && !isTokenExpired(token));
     }
 }

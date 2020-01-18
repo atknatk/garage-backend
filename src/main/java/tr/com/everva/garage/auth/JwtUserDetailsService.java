@@ -27,6 +27,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (responseDto.isSuccess()) {
             UserDto userDto = (UserDto) responseDto.getData();
             userDto.setPassword(password);
+            userDto.setPhone(phone);
             return userDto;
         }
         throw new UsernameNotFoundException("User not found with username: " + phone);

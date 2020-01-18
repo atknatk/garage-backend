@@ -2,10 +2,10 @@ package tr.com.everva.garage.service;
 
 import org.springframework.stereotype.Service;
 import tr.com.everva.garage.enums.ErrorCode;
+import tr.com.everva.garage.exception.UserNotFoundException;
 import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.account.UserDto;
 import tr.com.everva.garage.model.dto.account.RegistrationDto;
-import tr.com.everva.garage.model.dto.account.UserGalleryDto;
 import tr.com.everva.garage.model.dto.account.VerifyDto;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
@@ -45,7 +45,7 @@ public class AccountService {
 
     public ResponseDto retrieveUser(String phone) {
 
-        Optional<UserGalleryDto> byPhone = userRepository.findByPhone(phone);
+        Optional<User> byPhone = userRepository.findByPhone(phone);
         return byPhone.isPresent() ?
                 ResponseDto.builder()
                         .success(true)
@@ -59,7 +59,18 @@ public class AccountService {
 
 
     public ResponseDto verify(VerifyDto dto) {
-        // TODO verify
-        return null;
+        Optional<User> byPhone = userRepository.findByPhone(dto.getPhone());
+        // TODO Code verify
+
+        if(!byPhone.isPresent()){
+            throw new UserNotFoundException("phone");
+        }
+
+        User user = byPhone.get();
+        user.setVerify(true);
+        user.setActive(true);
+        userRepository.verify(user.getId());
+
+       return ResponseDto.builder().success(true).build();
     }
 }

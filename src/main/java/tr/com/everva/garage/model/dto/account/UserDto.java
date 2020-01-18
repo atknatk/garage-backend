@@ -20,12 +20,16 @@ public class UserDto implements UserDetails {
     @JsonProperty("i")
     private String id;
 
-    @JsonProperty("t")
-    private GalleryDto galleryDto;
+//    @JsonProperty("t")
+//    private GalleryDto galleryDto;
 
     @NotNull
     @JsonProperty("n")
     private String name;
+
+    @NotNull
+    @JsonProperty("p")
+    private String phone;
 
     @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
@@ -54,28 +58,16 @@ public class UserDto implements UserDetails {
     public UserDto(User user) {
         setId(user.getId());
         setName(user.getName());
-        if (user.getGallery() != null) {
-            GalleryDto galleryDto = new GalleryDto();
-            galleryDto.setId(user.getGallery().getId());
-           // TODO fix galleryDto.setGalleryName(user.getGallery().getGalleryName());
-            setGalleryDto(galleryDto);
-        } else if (user.getGalleryId() != null) {
-            GalleryDto galleryDto = new GalleryDto();
-            galleryDto.setId(user.getGalleryId());
-            setGalleryDto(galleryDto);
-        }
+//        if (user.ge() != null) {
+//            GalleryDto galleryDto = new GalleryDto();
+//            galleryDto.setId(user.getGallery().getId());
+//           // TODO fix galleryDto.setGalleryName(user.getGallery().getGalleryName());
+//            setGalleryDto(galleryDto);
+//        } else if (user.getGalleryId() != null) {
+//            GalleryDto galleryDto = new GalleryDto();
+//            galleryDto.setId(user.getGalleryId());
+//            setGalleryDto(galleryDto);
+//        }
     }
 
-    public UserDto(UserGalleryDto userGalleryDto) {
-        setId(userGalleryDto.getId());
-        if (userGalleryDto.getGalleryId() != null && !userGalleryDto.getGalleryId().equals("")) {
-            GalleryDto galleryDto = new GalleryDto();
-            galleryDto.setId(userGalleryDto.getId());
-            setGalleryDto(galleryDto);
-        } else if (userGalleryDto.getGalleryId() != null) {
-            GalleryDto galleryDto = new GalleryDto();
-            galleryDto.setId(userGalleryDto.getGalleryId());
-            setGalleryDto(galleryDto);
-        }
-    }
 }

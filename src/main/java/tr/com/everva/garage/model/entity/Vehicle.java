@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 import tr.com.everva.garage.model.IAuditEntity;
 import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.dto.vehicle.VehicleCreateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
@@ -51,6 +53,19 @@ public class Vehicle extends BaseGalleryAuditUserEntity implements IGallery, IAu
 
     @OneToMany(mappedBy = "vehicle")
     private List<Expense> expenses;
+
+    public Vehicle(VehicleCreateDto dto) {
+        if(!StringUtils.isEmpty(dto.getCategory())){
+            setCategory(new Category(dto.getCategory()));
+        }
+        setYear(dto.getYear());
+        setColor(dto.getColor());
+        setKm(dto.getKm());
+        setNote(dto.getNote());
+        setBoughtAt(dto.getBoughtAt());
+        setBuyingPrice(dto.getBuyingPrice());
+        setSold(false);
+    }
 
 
     public void merge(VehicleUpdateDto vehicleUpdateDto) {

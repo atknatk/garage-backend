@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import tr.com.everva.garage.exception.NotFoundException;
-import tr.com.everva.garage.mapper.VehicleMapper;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleCreateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleSalesDto;
@@ -43,7 +42,7 @@ public class VehicleService {
 
     @Transactional
     public Vehicle create(VehicleCreateDto dto) {
-        Vehicle vehicle = VehicleMapper.INSTANCE.fromCreateDtoToEntity(dto);
+        Vehicle vehicle = new Vehicle(dto);
         return vehicleRepository.save(vehicle);
     }
 
@@ -89,7 +88,7 @@ public class VehicleService {
 
         if (shareHolderList.isEmpty() || shareHolderList.size() == 1) {
             Income income = new Income();
-            income.setGalleryId(GalleryContext.getCurrentGallery());
+            income.setGallery(GalleryContext.getCurrentGalleryInstance());
             income.setUser(new User(currentUserId));
             income.setGain(gain);
             incomeService.save(income);
@@ -107,7 +106,7 @@ public class VehicleService {
             List<Income> incomes = new ArrayList<>();
             shareHolderList.forEach(l -> {
                 Income income = new Income();
-                income.setGalleryId(GalleryContext.getCurrentGallery());
+                income.setGallery(GalleryContext.getCurrentGalleryInstance());
                 income.setUser(new User(currentUserId));
                 income.setGain(perRatioGain * l.getShareHolding());
                 incomes.add(income);

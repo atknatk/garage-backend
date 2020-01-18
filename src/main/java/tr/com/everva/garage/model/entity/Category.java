@@ -26,4 +26,7 @@ public class Category extends BaseEntity {
 
     private String name;
 
+    public Category(String id) {
+        setId(id);
+    }
 }

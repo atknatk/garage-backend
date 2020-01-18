@@ -1,13 +1,14 @@
 package tr.com.everva.garage.service;
 
 import org.springframework.stereotype.Service;
+import tr.com.everva.garage.exception.NotFoundException;
 import tr.com.everva.garage.model.dto.ResponseDto;
-import tr.com.everva.garage.model.dto.account.UserGalleryDto;
-import tr.com.everva.garage.model.dto.account.UserGalleryPhoneDto;
+import tr.com.everva.garage.model.dto.account.UserDto;
 import tr.com.everva.garage.model.dto.gallery.GalleryCreateDto;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderCreateFromGalleryDto;
+import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
+import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.repository.GalleryRepository;
-import tr.com.everva.garage.repository.UserRepository;
 import tr.com.everva.garage.util.ContextUtils;
 
 import javax.transaction.Transactional;
@@ -20,11 +21,14 @@ public class GalleryService {
 
     private final GalleryRepository galleryRepository;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public GalleryService(GalleryRepository galleryRepository, UserRepository userRepository) {
+    private final ShareHolderService shareHolderService;
+
+    public GalleryService(GalleryRepository galleryRepository, UserService userService, ShareHolderService shareHolderService) {
         this.galleryRepository = galleryRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
+        this.shareHolderService = shareHolderService;
     }
 
     /**
@@ -37,7 +41,15 @@ public class GalleryService {
     @Transactional
     public ResponseDto create(GalleryCreateDto dto) {
         String id = ContextUtils.getCurrentUser().getId();
+        UserDto currentUser = userService.findById(id);
+        boolean existCurrentUser = dto.getShareHolderDtoList().stream().anyMatch(l -> l.getPhone().contains(currentUser.getPhone()));
+        if(!existCurrentUser) throw new NotFoundException("İstek yapan kullanıcı galeri kullanıcılarında mevcut değil.");
+
         List<ShareHolderCreateFromGalleryDto> shareHolderDtoList = dto.getShareHolderDtoList();
+
+        // ortakları olmanya galeri oluşturuluyor.
+        final Gallery savedGallery = galleryRepository.save(new Gallery(dto));
+
 
         // Ortakların telefon numaraları dto'dan alınıyor;
         List<String> phoneNumberList =
@@ -46,27 +58,37 @@ public class GalleryService {
                         .collect(Collectors.toList());
 
         // Ortakların telefon numaraları db'de olanlar fetch ediliyor;
-        final List<UserGalleryPhoneDto> byPhoneList = userRepository.findByPhoneList(phoneNumberList);
+        final List<UserDto> byPhoneList = userService.findByPhoneList(phoneNumberList);
 
         dto.getShareHolderDtoList().forEach(shareHolder -> {
 
 
-            Optional<UserGalleryPhoneDto> existDb =
+            Optional<UserDto> existDb =
                     byPhoneList.stream().filter(l -> l.getPhone().equals(shareHolder.getPhone())).findFirst();
 
             // Ortağın telefon numarası db'de mevcut ise ortaklık oranı yazılıyor
             if (existDb.isPresent()) {
-                UserGalleryPhoneDto userGalleryPhoneDto = existDb.get();
+                UserDto userDto = existDb.get();
 
+                // Eğer daha önceden bir kullanıcının aynı galeri üzerinde ortaklığı bulunuyor ise mevcut ortaklığı güncellenir.
+                Optional<ShareHolderDto> byShareHolder = shareHolderService
+                        .findByUserAndGallery(userDto.getId(),savedGallery.getId());
 
-
+                if(byShareHolder.isPresent()){
+                    ShareHolderDto shareHolderDto = byShareHolder.get();
+                    shareHolderDto.setShareHolding(shareHolder.getShareHolding());
+                    shareHolderService.create(shareHolderDto);
+                }else{
+                    shareHolderService
+                            .create(userDto.getId(),savedGallery.getId(), shareHolder.getShareHolding());
+                }
+            }else {
+                // Ortağın telefon numarası db de kayıtlı değil
+                UserDto passiveUser = userService.createPassiveUser(shareHolder.getPhone(), savedGallery.getId());
+                shareHolderService
+                        .create(passiveUser.getId(),savedGallery.getId(), shareHolder.getShareHolding());
             }
-
         });
-
-
-        userRepository.findById(id);
-
-        return null;
+        return ResponseDto.builder().success(true).build();
     }
 }

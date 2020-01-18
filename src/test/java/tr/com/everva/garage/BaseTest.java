@@ -4,6 +4,7 @@ import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.model.entity.Vehicle;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class BaseTest {
@@ -49,8 +50,7 @@ public class BaseTest {
         this.vehicle.setGalleryId(gallery.getId());
         this.vehicle.setGallery(gallery);
         this.vehicle.setCreatedBy(user);
-        this.user.setGalleryId(gallery.getId());
-        this.user.setGallery(gallery);
+        this.user.setGalleries(new ArrayList<Gallery>(){{add(gallery);}});
     }
 
 

@@ -8,8 +8,11 @@ import org.mockito.Mock;
 import tr.com.everva.garage.BaseTest;
 import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.account.RegistrationDto;
+import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.model.entity.User;
 import tr.com.everva.garage.repository.UserRepository;
+
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.when;
 
@@ -30,8 +33,7 @@ class AccountServiceTest extends BaseTest {
         initTenant();
         //when(galleryService.saveEmptyTenant()).thenReturn(gallery);
         User user1 = user.toBuilder().build();
-        user1.setGallery(gallery);
-        user1.setGalleryId(galleryId);
+        user1.setGalleries(new ArrayList<Gallery>(){{add(gallery);}});
         when(userRepository.save(user)).thenReturn(user1);
     }
 

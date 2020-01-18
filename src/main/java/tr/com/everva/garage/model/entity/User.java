@@ -2,14 +2,14 @@ package tr.com.everva.garage.model.entity;
 
 import lombok.*;
 import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @Table(name = "users")
 //@FilterDef(name = "galleryFilter", parameters = {@ParamDef(name = "galleryId", type = "string")})
 //@Filter(name = "galleryFilter", condition = "gallery_id = :galleryId")
-public class User extends BaseGalleryAuditEntity implements IGallery {
+public class User extends BaseAuditEntity {
 
     public User(String id) {
         this.setId(id);
@@ -40,5 +40,10 @@ public class User extends BaseGalleryAuditEntity implements IGallery {
     private boolean deleted;
 
     private boolean active;
+
+    private boolean verify;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Gallery> galleries;
 
 }

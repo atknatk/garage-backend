@@ -19,8 +19,11 @@ public class GalleryCreateDto extends BaseIdDto {
     @JsonProperty("sl")
     private List<ShareHolderCreateFromGalleryDto> shareHolderDtoList;
 
-    @JsonProperty("d")
-    private String description;
+    @JsonProperty("a")
+    private String address;
+
+    @JsonProperty("p")
+    private String phone;
 
 
 }

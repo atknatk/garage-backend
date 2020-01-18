@@ -1,8 +1,10 @@
 package tr.com.everva.garage.model;
 
+import tr.com.everva.garage.model.entity.Gallery;
+
 public interface IGallery extends IEntity {
 
-    String getGalleryId();
+    Gallery getGallery();
 
-    void setGalleryId(String galleryId);
+    void setGallery(Gallery gallery);
 }

@@ -6,18 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tr.com.everva.garage.model.IAuditEntity;
 import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+        uniqueConstraints= @UniqueConstraint(columnNames={"share_holder_user_id", "gallery_id"})
+)
 public class ShareHolder extends BaseGalleryAuditEntity implements IGallery, IAuditEntity {
 
     @ManyToOne
@@ -27,4 +28,11 @@ public class ShareHolder extends BaseGalleryAuditEntity implements IGallery, IAu
     // Sermaye Orani ya da Sermayesi Bedeli
     private int shareHolding;
 
+    public ShareHolder(ShareHolderDto shareHolderDto) {
+        setId(shareHolderDto.getId());
+        setGallery(new Gallery(shareHolderDto.getGalleryId()));
+        User user = new User(shareHolderDto.getUserId());
+        setUser(user);
+        setShareHolding(shareHolderDto.getShareHolding());
+    }
 }
