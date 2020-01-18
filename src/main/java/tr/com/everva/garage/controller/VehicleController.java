@@ -26,14 +26,14 @@ public class VehicleController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseDto> getAll() {
         List<Vehicle> vehicle = vehicleService.list();
         ResponseDto response = ResponseDto.builder().success(true).data(vehicle).build();
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResponseDto> addVehicle(@Valid @RequestBody VehicleCreateDto dto) {
         Vehicle vehicle = vehicleService.create(dto);
         ResponseDto response = ResponseDto.builder().success(true).data(vehicle.getId()).build();

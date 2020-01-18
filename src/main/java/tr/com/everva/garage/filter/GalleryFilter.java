@@ -21,7 +21,7 @@ public class GalleryFilter implements Filter {
 
     private final WebSecurityConfig webSecurityConfig;
 
-    private static final String GALLERY_HEADER = "X-GalleryID";
+    private static final String GALLERY_HEADER = "X-GalleryId";
 
     public GalleryFilter(WebSecurityConfig webSecurityConfig) {
         this.webSecurityConfig = webSecurityConfig;
