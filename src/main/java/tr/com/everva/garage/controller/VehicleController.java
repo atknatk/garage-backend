@@ -48,9 +48,16 @@ public class VehicleController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}/sales")
+    @PostMapping("/{id}/sold")
     public ResponseEntity<ResponseDto> sold(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleSalesDto dto) {
-        vehicleService.sales(id, dto);
+     //   vehicleService.sales(id, dto);
+        ResponseDto response = ResponseDto.builder().success(true).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{id}/expense")
+    public ResponseEntity<ResponseDto> addExpense(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleSalesDto dto) {
+   //     vehicleService.sales(id, dto);
         ResponseDto response = ResponseDto.builder().success(true).build();
         return ResponseEntity.ok(response);
     }
