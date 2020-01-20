@@ -47,8 +47,8 @@ public class ShareHolderService {
         return new ShareHolderDto(saved);
     }
 
-    protected Optional<ShareHolderDto> findByUserAndGallery(String userId, String galleryId){
-        Optional<ShareHolder> byUserAndGallery = shareHolderRepository.findByUserAndGallery(userId, galleryId);
+    protected Optional<ShareHolderDto> findByUserAndGallery(String userId) {
+        Optional<ShareHolder> byUserAndGallery = shareHolderRepository.findByUser(userId);
         return byUserAndGallery.map(ShareHolderDto::new);
     }
 

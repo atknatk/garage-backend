@@ -2,6 +2,7 @@ package tr.com.everva.garage.model.dto.shareholder;
 
 import lombok.*;
 import tr.com.everva.garage.model.dto.BaseIdDto;
+import tr.com.everva.garage.model.dto.income.IncomeShareHoldingRateDto;
 import tr.com.everva.garage.model.entity.ShareHolder;
 
 @Getter
@@ -19,11 +20,16 @@ public class ShareHolderDto extends BaseIdDto {
     public ShareHolderDto(ShareHolder shareHolder) {
         setId(shareHolder.getId());
         setShareHolding(shareHolder.getShareHolding());
-        if(shareHolder.getGallery() != null){
+        if (shareHolder.getGallery() != null) {
             setGalleryId(shareHolder.getGallery().getId());
         }
-        if(shareHolder.getUser() != null) {
+        if (shareHolder.getUser() != null) {
             setUserId(shareHolder.getId());
         }
+    }
+
+    public ShareHolderDto(IncomeShareHoldingRateDto rateDto) {
+        setUserId(rateDto.getUser());
+        setShareHolding(rateDto.getShareHolding());
     }
 }

@@ -49,13 +49,17 @@ public class Vehicle extends BaseGalleryAuditUserEntity implements IGallery, IAu
     private double buyingPrice;
 
     @Column(precision = 12, scale = 2)
-    private double salesPrice;
+    private double soldPrice;
 
     @OneToMany(mappedBy = "vehicle")
     private List<Expense> expenses;
 
+    public Vehicle(String id) {
+        setId(id);
+    }
+
     public Vehicle(VehicleCreateDto dto) {
-        if(!StringUtils.isEmpty(dto.getCategory())){
+        if (!StringUtils.isEmpty(dto.getCategory())) {
             setCategory(new Category(dto.getCategory()));
         }
         setYear(dto.getYear());

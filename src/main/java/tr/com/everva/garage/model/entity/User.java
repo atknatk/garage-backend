@@ -2,6 +2,7 @@ package tr.com.everva.garage.model.entity;
 
 import lombok.*;
 import tr.com.everva.garage.model.IGallery;
+import tr.com.everva.garage.model.dto.account.BasicUserDto;
 import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
@@ -46,4 +47,7 @@ public class User extends BaseAuditEntity {
     @ManyToMany(mappedBy = "users")
     private List<Gallery> galleries;
 
+    public User(BasicUserDto principal) {
+        setId(principal.getId());
+    }
 }

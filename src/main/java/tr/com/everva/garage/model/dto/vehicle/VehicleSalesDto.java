@@ -17,7 +17,7 @@ public class VehicleSalesDto {
 
     @Min(value = 1000L, message = "must be positive")
     @JsonProperty("sp")
-    private double salesPrice;
+    private double soldPrice;
 
     @JsonProperty("shr")
     private List<IncomeShareHoldingRateDto> shareHoldingRates;

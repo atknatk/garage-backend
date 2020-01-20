@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ShareHolderRepository extends JpaRepository<ShareHolder, String> {
 
-    Optional<ShareHolder> findByUserAndGallery(String userId, String galleryId);
+    Optional<ShareHolder> findByUser(String userId);
 
 }
