@@ -10,6 +10,7 @@ import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.repository.GalleryRepository;
 import tr.com.everva.garage.util.ContextUtils;
+import tr.com.everva.garage.util.GalleryContext;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -38,18 +39,20 @@ public class GalleryService {
      * @param dto
      * @return
      */
-    @Transactional
+    @Transactional(rollbackOn = {Exception.class})
     public ResponseDto create(GalleryCreateDto dto) {
+
         String id = ContextUtils.getCurrentUser().getId();
         UserDto currentUser = userService.findById(id);
         boolean existCurrentUser = dto.getShareHolderDtoList().stream().anyMatch(l -> l.getPhone().contains(currentUser.getPhone()));
-        if(!existCurrentUser) throw new NotFoundException("İstek yapan kullanıcı galeri kullanıcılarında mevcut değil.");
+        if (!existCurrentUser)
+            throw new NotFoundException("İstek yapan kullanıcı galeri kullanıcılarında mevcut değil.");
 
         List<ShareHolderCreateFromGalleryDto> shareHolderDtoList = dto.getShareHolderDtoList();
 
         // ortakları olmanya galeri oluşturuluyor.
         final Gallery savedGallery = galleryRepository.save(new Gallery(dto));
-
+        GalleryContext.setCurrentGallery(savedGallery.getId());
 
         // Ortakların telefon numaraları dto'dan alınıyor;
         List<String> phoneNumberList =
@@ -62,7 +65,6 @@ public class GalleryService {
 
         dto.getShareHolderDtoList().forEach(shareHolder -> {
 
-
             Optional<UserDto> existDb =
                     byPhoneList.stream().filter(l -> l.getPhone().equals(shareHolder.getPhone())).findFirst();
 
@@ -71,22 +73,24 @@ public class GalleryService {
                 UserDto userDto = existDb.get();
 
                 // Eğer daha önceden bir kullanıcının aynı galeri üzerinde ortaklığı bulunuyor ise mevcut ortaklığı güncellenir.
-                Optional<ShareHolderDto> byShareHolder = shareHolderService
-                        .findByUserAndGallery(userDto.getId());
+                Optional<ShareHolderDto> byShareHolder = shareHolderService.findByUser(userDto.getId());
 
-                if(byShareHolder.isPresent()){
+                // Galeri ile kullanıcı bağlanıyor.
+                userService.assignGallery(userDto.getId(), savedGallery);
+
+                if (byShareHolder.isPresent()) {
                     ShareHolderDto shareHolderDto = byShareHolder.get();
                     shareHolderDto.setShareHolding(shareHolder.getShareHolding());
                     shareHolderService.create(shareHolderDto);
-                }else{
+                } else {
                     shareHolderService
-                            .create(userDto.getId(),savedGallery.getId(), shareHolder.getShareHolding());
+                            .create(userDto.getId(), savedGallery.getId(), shareHolder.getShareHolding());
                 }
-            }else {
+            } else {
                 // Ortağın telefon numarası db de kayıtlı değil
-                UserDto passiveUser = userService.createPassiveUser(shareHolder.getPhone(), savedGallery.getId());
+                UserDto passiveUser = userService.createPassiveUser(shareHolder.getPhone(), savedGallery);
                 shareHolderService
-                        .create(passiveUser.getId(),savedGallery.getId(), shareHolder.getShareHolding());
+                        .create(passiveUser.getId(), savedGallery.getId(), shareHolder.getShareHolding());
             }
         });
         return ResponseDto.builder().success(true).build();

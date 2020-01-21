@@ -23,5 +23,6 @@ public class ShareHolderCreateFromGalleryDto extends BaseIdDto {
     @JsonProperty("p")
     private String phone;
 
+    @JsonProperty("s")
     private int shareHolding;
 }

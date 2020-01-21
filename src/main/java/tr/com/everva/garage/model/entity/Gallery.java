@@ -7,10 +7,7 @@ import lombok.Setter;
 import tr.com.everva.garage.model.dto.gallery.GalleryCreateDto;
 import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +27,11 @@ public class Gallery extends BaseAuditEntity {
 
     private boolean deleted;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(
             name = "gallery_user",
             joinColumns = @JoinColumn(name = "gallery_id"),

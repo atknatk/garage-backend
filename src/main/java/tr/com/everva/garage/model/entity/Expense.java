@@ -12,6 +12,7 @@ import tr.com.everva.garage.model.dto.expense.ExpenseAddDto;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -27,7 +28,7 @@ public class Expense extends BaseGalleryAuditUserEntity implements IGallery, IAu
 
     @Column(precision = 8, scale = 2)
     @Type(type = "big_decimal")
-    private double money;
+    private BigDecimal money;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id", nullable = false, foreignKey = @ForeignKey(name = "fk_expense_vehicle_id"))

@@ -14,7 +14,9 @@ import tr.com.everva.garage.util.GalleryContext;
 @Component
 public class ShareHolderServiceAspect {
 
-    @Before("execution(* tr.com.everva.garage.service.ShareHolderService.*(..))  && target(service)")
+    @Before("execution(* tr.com.everva.garage.service.ShareHolderService.*(..)) " +
+            " && !@annotation(tr.com.everva.garage.filter.NoGalleryFilter) " +
+            " && target(service)")
     public void aroundExecution(JoinPoint pjp, ShareHolderService service) {
         org.hibernate.Filter filter = service.entityManager.unwrap(Session.class).enableFilter("galleryFilter");
         filter.setParameter("galleryId", GalleryContext.getCurrentGallery());

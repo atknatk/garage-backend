@@ -3,6 +3,9 @@ package tr.com.everva.garage.filter;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import tr.com.everva.garage.auth.WebSecurityConfig;
+import tr.com.everva.garage.exception.GalleryNonExistInUserException;
+import tr.com.everva.garage.service.UserService;
+import tr.com.everva.garage.util.ContextUtils;
 import tr.com.everva.garage.util.GalleryContext;
 
 import javax.servlet.Filter;
@@ -20,11 +23,13 @@ import java.io.IOException;
 public class GalleryFilter implements Filter {
 
     private final WebSecurityConfig webSecurityConfig;
+    private final UserService userService;
 
     private static final String GALLERY_HEADER = "X-GalleryId";
 
-    public GalleryFilter(WebSecurityConfig webSecurityConfig) {
+    public GalleryFilter(WebSecurityConfig webSecurityConfig, UserService userService) {
         this.webSecurityConfig = webSecurityConfig;
+        this.userService = userService;
     }
 
     @Override
@@ -36,8 +41,17 @@ public class GalleryFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String galleryHeader = request.getHeader(GALLERY_HEADER);
+
+        // İlk galeri kayıt için ignore ediliyor.
+        if (request.getMethod().equals("POST") && request.getServletPath().equalsIgnoreCase("/gallery")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         if (!this.webSecurityConfig.ignoringPaths.contains(request.getServletPath())) {
             if (galleryHeader != null && !galleryHeader.isEmpty()) {
+                if (!userService.checkOwnGallery(galleryHeader))
+                    throw new GalleryNonExistInUserException(ContextUtils.getCurrentUser().getId());
                 GalleryContext.setCurrentGallery(galleryHeader);
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

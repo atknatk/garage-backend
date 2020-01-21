@@ -35,7 +35,7 @@ public class VehicleServiceTest extends BaseTest {
 
     @BeforeEach
     void setMockOutput() {
-        vehicleService = new VehicleService(vehicleRepository, configurationService, shareHolderService, incomeService, expenseService);
+        vehicleService = new VehicleService(vehicleRepository, configurationService, shareHolderService, incomeService, expenseService, userService);
         Vehicle vehicle = new Vehicle();
         vehicle.setId(vehicleId);
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.of(vehicle));

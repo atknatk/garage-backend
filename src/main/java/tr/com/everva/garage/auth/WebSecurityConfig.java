@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public final List<String> ignoringPaths = new ArrayList<String>() {{
         add("/account/register");
         add("/account/verify");
-        add("/authenticate");
+//        add("/authenticate");
     }};
 
     @Autowired

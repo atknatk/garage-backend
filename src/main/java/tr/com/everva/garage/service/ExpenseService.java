@@ -41,7 +41,7 @@ public class ExpenseService {
 
         Expense expense = new Expense(dto);
         expense.setVehicle(new Vehicle(id));
-        expense.setGallery(GalleryContext.getCurrentGalleryInstance());
+        expense.setGalleryId(GalleryContext.getCurrentGallery());
         Expense saved = expenseRepository.save(expense);
         return ResponseDto.builder().success(true).data(saved.getId()).build();
     }

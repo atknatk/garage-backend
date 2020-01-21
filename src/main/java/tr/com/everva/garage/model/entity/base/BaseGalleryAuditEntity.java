@@ -25,7 +25,7 @@ public class BaseGalleryAuditEntity extends BaseAuditEntity implements IAuditEnt
 //    protected String galleryId;
 
     @ManyToOne
-    @JoinColumn(name = "gallery_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "gallery_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     protected Gallery gallery;
 
 }

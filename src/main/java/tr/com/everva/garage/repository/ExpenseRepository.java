@@ -14,6 +14,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, String> {
 
     List<Expense> findAllByVehicle(String vehicleId);
 
-    @Query("select sum(e.money) from Expense e where e.vehicle = :vehicle")
+    @Query("select sum(e.money) from Expense e where e.vehicle.id = :vehicle")
     double sumAllExpensesByVehicle(@Param("vehicle") String vehicleId);
 }

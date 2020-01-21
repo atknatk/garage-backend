@@ -10,4 +10,13 @@ public class BasicUserDto extends BaseDto {
 
     private String id;
 
+    private String phone;
+
+    private String name;
+
+    public BasicUserDto(UserDto principal) {
+        setId(principal.getId());
+        setPhone(principal.getPhone());
+        setName(principal.getName());
+    }
 }

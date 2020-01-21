@@ -9,6 +9,7 @@ import tr.com.everva.garage.model.dto.BaseIdDto;
 import tr.com.everva.garage.model.entity.Expense;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class ExpenseDto extends BaseIdDto {
     private String expenseType;
 
     @NotNull
-    private double money;
+    private BigDecimal money;
 
     @NotNull
     private String vehicleId;

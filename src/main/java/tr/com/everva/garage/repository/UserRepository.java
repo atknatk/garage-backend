@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import tr.com.everva.garage.model.entity.Gallery;
 import tr.com.everva.garage.model.entity.User;
 
 import javax.transaction.Transactional;
@@ -22,8 +23,15 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select u from User u  where u.phone in :phones")
     List<User> findByPhoneList(@Param("phones") List<String> phones);
 
+    @Query("select u from User u left join fetch u.galleries where u.id in :id")
+    Optional<User> findByIdFetchGallery(@Param("id") String id);
+
     @Modifying
     @Transactional
     @Query("update User u set u.verify = true, u.active= true where u.id = :userId ")
     void verify(@Param("userId") String userId);
+
+    @Query(value = "select 1 from gallery_user gu where gu.user_id = :user and gu.gallery_id = :gallery", nativeQuery = true)
+    Optional<Integer> checkOwnGallery(@Param("user") String user, @Param("gallery") String gallery);
+
 }

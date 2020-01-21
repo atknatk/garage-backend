@@ -1,5 +1,6 @@
 package tr.com.everva.garage.model.dto.expense;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import tr.com.everva.garage.model.entity.Expense;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -15,9 +17,11 @@ import javax.validation.constraints.NotNull;
 public class ExpenseAddDto {
 
     @NotNull
+    @JsonProperty("e")
     private String expenseType;
 
     @NotNull
-    private double money;
+    @JsonProperty("m")
+    private BigDecimal money;
 
 }

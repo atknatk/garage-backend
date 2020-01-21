@@ -33,11 +33,11 @@ public class VehicleCreateDto {
     @JsonProperty("n")
     private String note;
 
-    @JsonProperty("bd")
+    @JsonProperty("ba")
     private Date boughtAt;
 
     @Min(value = 0L, message = "must be positive")
     @JsonProperty("bp")
-    private double buyingPrice;
+    private int buyingPrice;
 
 }

@@ -58,6 +58,7 @@ public class UserDto implements UserDetails {
     public UserDto(User user) {
         setId(user.getId());
         setName(user.getName());
+        setPhone(user.getPhone());
 //        if (user.ge() != null) {
 //            GalleryDto galleryDto = new GalleryDto();
 //            galleryDto.setId(user.getGallery().getId());

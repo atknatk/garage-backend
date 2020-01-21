@@ -2,7 +2,9 @@ package tr.com.everva.garage.model.dto.vehicle;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tr.com.everva.garage.model.entity.Vehicle;
 import tr.com.everva.garage.validation.ValidYear;
 
 import javax.validation.constraints.Max;
@@ -12,6 +14,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class VehicleUpdateDto {
 
     @ValidYear
@@ -34,4 +37,11 @@ public class VehicleUpdateDto {
     private double buyingPrice;
 
 
+    public VehicleUpdateDto(Vehicle entity) {
+        setYear(entity.getYear());
+        setColor(entity.getColor());
+        setKm(entity.getKm());
+        setNote(entity.getNote());
+        setBuyingPrice(entity.getBuyingPrice());
+    }
 }

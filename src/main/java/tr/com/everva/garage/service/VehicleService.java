@@ -1,13 +1,11 @@
 package tr.com.everva.garage.service;
 
-import org.hibernate.Hibernate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import tr.com.everva.garage.exception.GalleryNonExistInUserException;
 import tr.com.everva.garage.exception.NotFoundException;
 import tr.com.everva.garage.exception.VehicleNotFound;
+import tr.com.everva.garage.filter.NoGalleryFilter;
 import tr.com.everva.garage.model.dto.ResponseDto;
-import tr.com.everva.garage.model.dto.expense.ExpenseDto;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleCreateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleSalesDto;
@@ -20,8 +18,6 @@ import tr.com.everva.garage.util.GalleryContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,22 +34,27 @@ public class VehicleService {
     private final ShareHolderService shareHolderService;
     private final IncomeService incomeService;
     private final ExpenseService expenseService;
+    private final UserService userService;
 
-    public VehicleService(VehicleRepository vehicleRepository, ConfigurationService configurationService, ShareHolderService shareHolderService, IncomeService incomeService, ExpenseService expenseService) {
+    public VehicleService(VehicleRepository vehicleRepository, ConfigurationService configurationService, ShareHolderService shareHolderService, IncomeService incomeService, ExpenseService expenseService, UserService userService) {
         this.vehicleRepository = vehicleRepository;
         this.configurationService = configurationService;
         this.shareHolderService = shareHolderService;
         this.incomeService = incomeService;
         this.expenseService = expenseService;
+        this.userService = userService;
     }
 
     @Transactional
+    @NoGalleryFilter
     public Vehicle create(VehicleCreateDto dto) {
         Vehicle vehicle = new Vehicle(dto);
+        vehicle.setGalleryId(GalleryContext.getCurrentGallery());
         return vehicleRepository.save(vehicle);
     }
 
     @Transactional
+    @NoGalleryFilter
     public Vehicle update(String id, VehicleUpdateDto vehicleUpdateDto) {
         Vehicle vehicleDb = getAndCheckExist(id);
         vehicleDb.merge(vehicleUpdateDto);

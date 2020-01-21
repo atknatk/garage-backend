@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import tr.com.everva.garage.model.IAuditEntity;
 import tr.com.everva.garage.model.entity.User;
+import tr.com.everva.garage.util.ContextUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -36,16 +37,12 @@ public class BaseGalleryAuditUserEntity extends BaseGalleryEntity implements IAu
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        createdBy = (User) principal;
+        createdBy = ContextUtils.getCurrentUserForRepository();
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new Date();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        updatedBy = (User) principal;
+        updatedBy = ContextUtils.getCurrentUserForRepository();
     }
 }

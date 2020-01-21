@@ -50,7 +50,7 @@ public class VehicleController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto> updateVehicle(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleUpdateDto dto) {
         Vehicle updated = vehicleService.update(id, dto);
-        ResponseDto response = ResponseDto.builder().success(true).data(updated).build();
+        ResponseDto response = ResponseDto.builder().success(true).data(new VehicleUpdateDto(updated)).build();
         return ResponseEntity.ok(response);
     }
 

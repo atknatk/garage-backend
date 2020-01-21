@@ -3,6 +3,7 @@ package tr.com.everva.garage.model.entity;
 import lombok.*;
 import tr.com.everva.garage.model.IGallery;
 import tr.com.everva.garage.model.dto.account.BasicUserDto;
+import tr.com.everva.garage.model.dto.account.UserDto;
 import tr.com.everva.garage.model.entity.base.BaseAuditEntity;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditEntity;
 
@@ -44,10 +45,20 @@ public class User extends BaseAuditEntity {
 
     private boolean verify;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "users")
     private List<Gallery> galleries;
 
     public User(BasicUserDto principal) {
         setId(principal.getId());
+    }
+
+    public User(UserDto principal) {
+        setId(principal.getId());
+        setPhone(principal.getPhone());
+        setName(principal.getName());
     }
 }
