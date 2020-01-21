@@ -15,9 +15,7 @@ public class AmazonSmsConfig {
     @Bean
     public AmazonSNS AmazonSNSClientBuilder() {
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials("AKIA2HDEDXFRBKPYBCKP", "XvwJQsK1JMCm+HadXZ0PbX0mgrYHD/sHptexBVWo");
-
         // snsClient.publish(new PublishRequest().withMessage("message").withPhoneNumber("+905325250522"))
-
         return AmazonSNSClient
                 .builder()
                 .withRegion(Regions.EU_WEST_1)

@@ -35,7 +35,7 @@ public class User extends BaseAuditEntity {
     @NotNull
     @Size(min = 12, max = 12)
     @Pattern(regexp = "(^$|[0-9]{12})") // 905325250522
-    @Column(unique = true)
+    @Column(unique = true, nullable = false, length = 12)
     private String phone;
 
     private boolean deleted;

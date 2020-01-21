@@ -72,7 +72,7 @@ public class GalleryService {
 
                 // Eğer daha önceden bir kullanıcının aynı galeri üzerinde ortaklığı bulunuyor ise mevcut ortaklığı güncellenir.
                 Optional<ShareHolderDto> byShareHolder = shareHolderService
-                        .findByUserAndGallery(userDto.getId(),savedGallery.getId());
+                        .findByUserAndGallery(userDto.getId());
 
                 if(byShareHolder.isPresent()){
                     ShareHolderDto shareHolderDto = byShareHolder.get();

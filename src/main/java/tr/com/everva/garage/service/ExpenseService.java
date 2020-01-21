@@ -7,6 +7,7 @@ import tr.com.everva.garage.model.dto.expense.ExpenseAddDto;
 import tr.com.everva.garage.model.entity.Expense;
 import tr.com.everva.garage.model.entity.Vehicle;
 import tr.com.everva.garage.repository.ExpenseRepository;
+import tr.com.everva.garage.repository.VehicleRepository;
 import tr.com.everva.garage.util.GalleryContext;
 
 import javax.persistence.EntityManager;
@@ -19,11 +20,11 @@ public class ExpenseService {
     public EntityManager entityManager;
 
     private final ExpenseRepository expenseRepository;
-    private final VehicleService vehicleService;
+    private final VehicleRepository vehicleRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository, VehicleService vehicleService) {
+    public ExpenseService(ExpenseRepository expenseRepository, VehicleRepository vehicleRepository) {
         this.expenseRepository = expenseRepository;
-        this.vehicleService = vehicleService;
+        this.vehicleRepository = vehicleRepository;
     }
 
 
@@ -33,7 +34,7 @@ public class ExpenseService {
 
     public ResponseDto addExpense(final String id, final ExpenseAddDto dto) {
 
-        boolean isExist = vehicleService.existsById(id);
+        boolean isExist = vehicleRepository.existsById(id);
         if (!isExist) {
             throw new VehicleNotFound(id);
         }

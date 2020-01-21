@@ -28,7 +28,7 @@ class AccountServiceTest extends BaseTest {
 
     @BeforeEach
     void setMockOutput() {
-        accountService = new AccountService(userRepository);
+        accountService = new AccountService(userRepository, smsVerificationRepository, amazonSNS);
         initUser();
         initTenant();
         //when(galleryService.saveEmptyTenant()).thenReturn(gallery);
