@@ -24,7 +24,7 @@ public class ExpenseDto extends BaseIdDto {
     private BigDecimal money;
 
     @NotNull
-    private String vehicleId;
+    private int vehicleId;
 
     public ExpenseDto(Expense expense) {
         setId(expense.getId());

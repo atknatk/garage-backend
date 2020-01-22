@@ -24,7 +24,7 @@ public class ShareHolderDto extends BaseIdDto {
             setGalleryId(shareHolder.getGallery().getId());
         }
         if (shareHolder.getUser() != null) {
-            setUserId(shareHolder.getId());
+            setUserId(shareHolder.getUser().getId());
         }
     }
 

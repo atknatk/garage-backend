@@ -48,20 +48,20 @@ public class VehicleController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateVehicle(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleUpdateDto dto) {
+    public ResponseEntity<ResponseDto> updateVehicle(@ValidUUID @PathVariable("id") int id, @Valid @RequestBody VehicleUpdateDto dto) {
         Vehicle updated = vehicleService.update(id, dto);
         ResponseDto response = ResponseDto.builder().success(true).data(new VehicleUpdateDto(updated)).build();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}/sold")
-    public ResponseEntity<ResponseDto> sold(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody VehicleSalesDto dto) {
+    public ResponseEntity<ResponseDto> sold(@PathVariable("id") int id, @Valid @RequestBody VehicleSalesDto dto) {
         ResponseDto response = vehicleService.sold(id, dto);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}/expense")
-    public ResponseEntity<ResponseDto> addExpense(@ValidUUID @PathVariable("id") String id, @Valid @RequestBody ExpenseAddDto dto) {
+    public ResponseEntity<ResponseDto> addExpense(@PathVariable("id") int id, @Valid @RequestBody ExpenseAddDto dto) {
         ResponseDto responseDto = expenseService.addExpense(id, dto);
         return ResponseEntity.ok(responseDto);
     }

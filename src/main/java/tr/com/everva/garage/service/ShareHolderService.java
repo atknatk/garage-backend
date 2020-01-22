@@ -45,6 +45,7 @@ public class ShareHolderService {
     public void create(String userId, String galleryId, int shareHolding) {
         ShareHolder shareHolder = new ShareHolder();
         shareHolder.setGallery(new Gallery(galleryId));
+        shareHolder.setGalleryId(galleryId);
         shareHolder.setUser(new User(userId));
         shareHolder.setShareHolding(shareHolding);
         shareHolderRepository.save(shareHolder);

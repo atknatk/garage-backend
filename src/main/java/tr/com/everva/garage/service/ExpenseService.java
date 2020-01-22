@@ -28,11 +28,11 @@ public class ExpenseService {
     }
 
 
-    public double sumAllExpenseByVehicle(String vehicleId) {
+    public double sumAllExpenseByVehicle(int vehicleId) {
         return expenseRepository.sumAllExpensesByVehicle(vehicleId);
     }
 
-    public ResponseDto addExpense(final String id, final ExpenseAddDto dto) {
+    public ResponseDto addExpense(final int id, final ExpenseAddDto dto) {
 
         boolean isExist = vehicleRepository.existsById(id);
         if (!isExist) {

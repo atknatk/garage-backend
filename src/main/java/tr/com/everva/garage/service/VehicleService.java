@@ -1,8 +1,8 @@
 package tr.com.everva.garage.service;
 
 import org.springframework.stereotype.Service;
-import tr.com.everva.garage.exception.GalleryNonExistInUserException;
 import tr.com.everva.garage.exception.NotFoundException;
+import tr.com.everva.garage.exception.VehicleAllReadySoldFound;
 import tr.com.everva.garage.exception.VehicleNotFound;
 import tr.com.everva.garage.filter.NoGalleryFilter;
 import tr.com.everva.garage.model.dto.ResponseDto;
@@ -10,7 +10,9 @@ import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleCreateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleSalesDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
-import tr.com.everva.garage.model.entity.*;
+import tr.com.everva.garage.model.entity.Income;
+import tr.com.everva.garage.model.entity.User;
+import tr.com.everva.garage.model.entity.Vehicle;
 import tr.com.everva.garage.repository.VehicleRepository;
 import tr.com.everva.garage.util.ContextUtils;
 import tr.com.everva.garage.util.GalleryContext;
@@ -18,6 +20,7 @@ import tr.com.everva.garage.util.GalleryContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,7 +58,7 @@ public class VehicleService {
 
     @Transactional
     @NoGalleryFilter
-    public Vehicle update(String id, VehicleUpdateDto vehicleUpdateDto) {
+    public Vehicle update(int id, VehicleUpdateDto vehicleUpdateDto) {
         Vehicle vehicleDb = getAndCheckExist(id);
         vehicleDb.merge(vehicleUpdateDto);
         return vehicleRepository.save(vehicleDb);
@@ -66,35 +69,31 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
+
     @Transactional
-    public boolean existsById(String id) {
-        return vehicleRepository.existsById(id);
+    public Optional<Vehicle> get(Integer id) {
+        return vehicleRepository.findById(id);
     }
 
 
-    @Transactional
-    public Optional<Vehicle> get(String uuid) {
-        return vehicleRepository.findById(uuid);
-    }
-
-    @Transactional
-    public void delete(String id) {
-        vehicleRepository.deleteById(id);
-    }
-
-
-    private Vehicle getAndCheckExist(String id) {
+    private Vehicle getAndCheckExist(int id) {
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(id);
         return vehicleOptional.orElseThrow(() -> new NotFoundException("not.found"));
     }
 
     @Transactional
-    public ResponseDto sold(final String id, VehicleSalesDto dto) {
+    public ResponseDto sold(final int id, VehicleSalesDto dto) {
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(id);
         Vehicle vehicle = vehicleOptional.orElseThrow(() -> {
             throw new VehicleNotFound(id);
         });
+        if (vehicle.isSold()) {
+            throw new VehicleAllReadySoldFound(id);
+        }
+
         vehicle.setSoldPrice(dto.getSoldPrice());
+        vehicle.setSold(true);
+        vehicle.setSoldAt(new Date());
         final Vehicle updatedVehicle = vehicleRepository.save(vehicle);
 
         double sumExpenses = expenseService.sumAllExpenseByVehicle(vehicle.getId());
@@ -111,7 +110,7 @@ public class VehicleService {
                 income.setUser(ContextUtils.getCurrentUserForRepository());
                 income.setGain(incomeValue);
                 income.setVehicle(updatedVehicle);
-                income.setGallery(GalleryContext.getCurrentGalleryInstance());
+                income.setGalleryId(GalleryContext.getCurrentGallery());
                 incomeService.save(income);
             } else {
                 // Çok ortaklı bir galeri ise
@@ -142,7 +141,7 @@ public class VehicleService {
             income.setUser(new User(shareHolderDto.getUserId()));
             income.setVehicle(vehicle);
             income.setGain(incomeValue * shareHolderDto.getShareHolding() / denominator);
-            income.setGallery(GalleryContext.getCurrentGalleryInstance());
+            income.setGalleryId(GalleryContext.getCurrentGallery());
 
             // TODO income note
             // income.setIncomeNote(note);

@@ -15,6 +15,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(name = "unq_user_gallery_vehicle", columnNames = {"user_id", "vehicle_id", "gallery_id"})
+)
 public class Income extends BaseGalleryAuditEntity implements IGallery, IAuditEntity {
 
     @ManyToOne

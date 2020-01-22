@@ -23,4 +23,6 @@ public class IncomeNote implements IEntity {
     @MapsId
     private Income income;
 
+    private String note;
+
 }
