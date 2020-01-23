@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpenseAddDto {
+public class ExpenseAddOrUpdateDto {
 
     @NotNull
     @JsonProperty("e")

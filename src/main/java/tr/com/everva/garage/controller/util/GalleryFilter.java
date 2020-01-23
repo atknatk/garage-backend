@@ -1,9 +1,11 @@
-package tr.com.everva.garage.filter;
+package tr.com.everva.garage.controller.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import tr.com.everva.garage.auth.WebSecurityConfig;
 import tr.com.everva.garage.exception.GalleryNonExistInUserException;
+import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.service.UserService;
 import tr.com.everva.garage.util.ContextUtils;
 import tr.com.everva.garage.util.GalleryContext;
@@ -26,10 +28,12 @@ public class GalleryFilter implements Filter {
     private final UserService userService;
 
     private static final String GALLERY_HEADER = "X-GalleryId";
+    private final ObjectMapper mapper;
 
     public GalleryFilter(WebSecurityConfig webSecurityConfig, UserService userService) {
         this.webSecurityConfig = webSecurityConfig;
         this.userService = userService;
+        mapper = new ObjectMapper();
     }
 
     @Override
@@ -50,8 +54,15 @@ public class GalleryFilter implements Filter {
 
         if (!this.webSecurityConfig.ignoringPaths.contains(request.getServletPath())) {
             if (galleryHeader != null && !galleryHeader.isEmpty()) {
-                if (!userService.checkOwnGallery(galleryHeader))
-                    throw new GalleryNonExistInUserException(ContextUtils.getCurrentUser().getId());
+                if (!userService.checkOwnGallery(galleryHeader)) {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    ResponseDto invalidKey = ResponseDto.builder().success(false).error("Invalid key").build();
+                    response.getWriter().write(mapper.writeValueAsString(invalidKey));
+                    return;
+                }
+                //throw new GalleryNonExistInUserException(ContextUtils.getCurrentUser().getId());
                 GalleryContext.setCurrentGallery(galleryHeader);
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

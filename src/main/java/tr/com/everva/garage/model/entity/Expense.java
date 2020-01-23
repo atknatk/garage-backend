@@ -8,7 +8,7 @@ import org.hibernate.annotations.Type;
 import tr.com.everva.garage.enums.ExpenseEnum;
 import tr.com.everva.garage.model.IAuditEntity;
 import tr.com.everva.garage.model.IGallery;
-import tr.com.everva.garage.model.dto.expense.ExpenseAddDto;
+import tr.com.everva.garage.model.dto.expense.ExpenseAddOrUpdateDto;
 import tr.com.everva.garage.model.entity.base.BaseGalleryAuditUserEntity;
 
 import javax.persistence.*;
@@ -34,7 +34,7 @@ public class Expense extends BaseGalleryAuditUserEntity implements IGallery, IAu
     @JoinColumn(name = "vehicle_id", nullable = false, foreignKey = @ForeignKey(name = "fk_expense_vehicle_id"))
     private Vehicle vehicle;
 
-    public Expense(ExpenseAddDto dto) {
+    public Expense(ExpenseAddOrUpdateDto dto) {
         setExpenseType(ExpenseEnum.valueOf(dto.getExpenseType()));
         setMoney(dto.getMoney());
     }

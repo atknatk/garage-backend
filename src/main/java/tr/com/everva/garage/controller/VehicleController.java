@@ -4,16 +4,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tr.com.everva.garage.model.dto.ResponseDto;
-import tr.com.everva.garage.model.dto.expense.ExpenseAddDto;
-import tr.com.everva.garage.model.dto.expense.ExpenseDto;
+import tr.com.everva.garage.model.dto.expense.ExpenseAddOrUpdateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleCreateDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleSalesDto;
 import tr.com.everva.garage.model.dto.vehicle.VehicleUpdateDto;
-import tr.com.everva.garage.model.entity.Expense;
 import tr.com.everva.garage.model.entity.Vehicle;
 import tr.com.everva.garage.service.ExpenseService;
 import tr.com.everva.garage.service.VehicleService;
-import tr.com.everva.garage.validation.ValidUUID;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -48,7 +45,7 @@ public class VehicleController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateVehicle(@ValidUUID @PathVariable("id") int id, @Valid @RequestBody VehicleUpdateDto dto) {
+    public ResponseEntity<ResponseDto> updateVehicle(@PathVariable("id") int id, @Valid @RequestBody VehicleUpdateDto dto) {
         Vehicle updated = vehicleService.update(id, dto);
         ResponseDto response = ResponseDto.builder().success(true).data(new VehicleUpdateDto(updated)).build();
         return ResponseEntity.ok(response);
@@ -61,7 +58,7 @@ public class VehicleController {
     }
 
     @PostMapping("/{id}/expense")
-    public ResponseEntity<ResponseDto> addExpense(@PathVariable("id") int id, @Valid @RequestBody ExpenseAddDto dto) {
+    public ResponseEntity<ResponseDto> addExpense(@PathVariable("id") int id, @Valid @RequestBody ExpenseAddOrUpdateDto dto) {
         ResponseDto responseDto = expenseService.addExpense(id, dto);
         return ResponseEntity.ok(responseDto);
     }

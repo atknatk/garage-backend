@@ -2,8 +2,9 @@ package tr.com.everva.garage.service;
 
 import org.springframework.stereotype.Service;
 import tr.com.everva.garage.exception.NotFoundException;
-import tr.com.everva.garage.exception.VehicleAllReadySoldFound;
-import tr.com.everva.garage.exception.VehicleNotFound;
+import tr.com.everva.garage.exception.VehicleAllReadySoldException;
+import tr.com.everva.garage.exception.VehicleNotFoundException;
+import tr.com.everva.garage.exception.VehicleSoldException;
 import tr.com.everva.garage.filter.NoGalleryFilter;
 import tr.com.everva.garage.model.dto.ResponseDto;
 import tr.com.everva.garage.model.dto.shareholder.ShareHolderDto;
@@ -60,6 +61,9 @@ public class VehicleService {
     @NoGalleryFilter
     public Vehicle update(int id, VehicleUpdateDto vehicleUpdateDto) {
         Vehicle vehicleDb = getAndCheckExist(id);
+        if (vehicleDb.isSold()) {
+            throw new VehicleSoldException();
+        }
         vehicleDb.merge(vehicleUpdateDto);
         return vehicleRepository.save(vehicleDb);
     }
@@ -85,10 +89,10 @@ public class VehicleService {
     public ResponseDto sold(final int id, VehicleSalesDto dto) {
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(id);
         Vehicle vehicle = vehicleOptional.orElseThrow(() -> {
-            throw new VehicleNotFound(id);
+            throw new VehicleNotFoundException(id);
         });
         if (vehicle.isSold()) {
-            throw new VehicleAllReadySoldFound(id);
+            throw new VehicleAllReadySoldException(id);
         }
 
         vehicle.setSoldPrice(dto.getSoldPrice());

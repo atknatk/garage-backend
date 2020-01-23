@@ -8,6 +8,7 @@ import tr.com.everva.garage.model.entity.Expense;
 import tr.com.everva.garage.model.entity.Vehicle;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, String> {
@@ -16,4 +17,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, String> {
 
     @Query("select sum(e.money) from Expense e where e.vehicle.id = :vehicle")
     double sumAllExpensesByVehicle(@Param("vehicle") int vehicleId);
+
 }

@@ -7,11 +7,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import tr.com.everva.garage.model.dto.ResponseDto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = {"tr", "com"})
 public class ExceptionHandling {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -28,9 +31,26 @@ public class ExceptionHandling {
     }
 
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NotFoundException.class)
-    public String handleNotFoundDateExceptions(NotFoundException ex) {
-        return ex.getMessage();
+    @ExceptionHandler({
+            EvervaRuntimeException.class,
+    })
+    public ResponseEntity<ResponseDto> galleryNonExistInUserException(EvervaRuntimeException ex) {
+        ResponseDto build = ResponseDto.builder()
+                .success(false)
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(build, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDto> exception(Exception ex) {
+        ResponseDto build = ResponseDto.builder()
+                .success(false)
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(build, HttpStatus.BAD_REQUEST);
+    }
+
 }
